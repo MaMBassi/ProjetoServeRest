@@ -1,0 +1,240 @@
+{
+	"info": {
+		"_postman_id": "4e9831c9-c0f0-4710-9c07-d22379227fac",
+		"name": "ServeRest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Criar um novo usuário",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Armazenar na variável do ambiente id, o _id do usuario criado\r",
+							"const responseJson = pm.response.json();\r",
+							"pm.environment.set(\"id\", responseJson._id);\r",
+							"\r",
+							"//Validação do Status Code\r",
+							"pm.test(\"Cadastro com sucesso\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"E-mail ja cadastrado\", () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"//Validação da mensagem recebida\r",
+							"pm.test(\"Cadastro com sucesso\", () => {\r",
+							"  pm.expect(responseJson.message).to.eql(\"Cadastro realizado com sucesso\");\r",
+							"});\r",
+							"pm.test(\"E-mail ja cadastrado\", () => {\r",
+							"  pm.expect(responseJson.message).to.eql(\"Este email já está sendo usado\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Fulano da Silva\",\r\n  \"email\": \"teste2@qa.com.br\",\r\n  \"password\": \"teste\",\r\n  \"administrador\": \"true\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/usuarios",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar todos os usuários cadastrados",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Validação do Status Code\r",
+							"pm.test(\"Lista de usuários\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Validação da mensagem recebida\r",
+							"const jsonData = pm.response.json();\r",
+							"//para cada usuário cadastrado\r",
+							"pm.test(\"Testar os tipos de dados do response\", () => {\r",
+							"  pm.expect(jsonData).to.be.an(\"object\");\r",
+							"  pm.expect(jsonData.quantidade).to.be.a(\"number\");\r",
+							"  pm.expect(jsonData.usuarios).to.be.a(\"array\");\r",
+							"  pm.expect(jsonData.usuarios[0].nome).to.be.an(\"string\");\r",
+							"  pm.expect(jsonData.usuarios[0].email).to.be.an(\"string\");\r",
+							"  pm.expect(jsonData.usuarios[0].password).to.be.an(\"string\");\r",
+							"  pm.expect(jsonData.usuarios[0].administrador).to.be.an(\"string\");\r",
+							"  pm.expect(jsonData.usuarios[0]._id).to.be.an(\"string\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/usuarios",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar os usuários cadastrados",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Validação do Status Code\r",
+							"pm.test(\"Usuário encontrado\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Usuário não encontrado\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"//Validação da mensagem recebida\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Usuário encontrado\", () => {\r",
+							"  pm.expect(jsonData).to.be.an(\"object\");\r",
+							"  pm.expect(jsonData.nome).to.be.an(\"string\");\r",
+							"  pm.expect(jsonData.email).to.be.an(\"string\");\r",
+							"  pm.expect(jsonData.password).to.be.an(\"string\");\r",
+							"  pm.expect(jsonData.administrador).to.be.an(\"string\");\r",
+							"  pm.expect(jsonData._id).to.be.an(\"string\");\r",
+							"});\r",
+							"pm.test(\"Usuário não encontrado\", () => {\r",
+							"  pm.expect(jsonData.message).to.eql(\"Usuário não encontrado\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/usuarios/{{id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"usuarios",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir o mesmo usuário cadastrado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Validação do Status Code\r",
+							"pm.test(\"Registro excluído com sucesso | Nenhum registro excluído\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Usuário com carrinho cadastrado\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"//Validação da mensagem recebida\r",
+							"const responseJson = pm.response.json();\r",
+							"pm.test(\"Registro excluído com sucesso\", () => {\r",
+							"  pm.expect(responseJson.message).to.eql(\"Registro excluído com sucesso\");\r",
+							"});\r",
+							"pm.test(\"Nenhum registro excluído\", () => {\r",
+							"  pm.expect(responseJson.message).to.eql(\"Nenhum registro excluído\");\r",
+							"});\r",
+							"pm.test(\"Usuário com carrinho cadastrado\", () => {\r",
+							"  pm.expect(responseJson.message).to.eql(\"Não é permitido excluir usuário com carrinho cadastrado\");\r",
+							"  pm.expect(jsonData.idCarrinho).to.be.an(\"string\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/usuarios/{{id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"usuarios",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
