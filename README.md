@@ -1,5 +1,5 @@
 # ProjetoServeRest
-Exercício Proposto para automação de testes utilizando o framework Postman.
+Exercício Proposto para automação de testes utilizando o framework Postman e uma API Pública.
 
 # Enviroment: ServeRest
 <!--ts-->
