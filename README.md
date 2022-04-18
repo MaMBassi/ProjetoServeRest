@@ -1,10 +1,16 @@
 # ProjetoServeRest
-Exercício Proposto para automação de testes utilizando o framework Postman e uma API Pública.
+Projeto de automação de testes utilizando o framework Postman e uma API Pública.
+
+# Framework
+Postman
+
+# API Pública
+https://serverest.dev/
 
 # Enviroment: ServeRest
 <!--ts-->
   * Variáveis:
-    * url: variável que armazena o url da API Pública;
+    * url: variável que armazena o url da API;
     * id: variável que armaneza o id do usuário criado com o POST.
     
   * Coleções:
