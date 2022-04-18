@@ -1,4 +1,4 @@
-# ProjetoServeRest
+# Projeto ServeRest
 Projeto de automação de testes utilizando o framework Postman e uma API Pública.
 
 # Framework
@@ -9,16 +9,27 @@ https://serverest.dev/
 
 # Enviroment: ServeRest
 <!--ts-->
+  * Arquivo:
+    ServeRest.postman_environment.json
+    
   * Variáveis:
-    * url: variável que armazena o url da API;
-    * id: variável que armaneza o id do usuário criado com o POST.
+    * url: variável que armazena a url da API;
+    * id: variável que armaneza o id do usuário (retornado no response do POST).
     
   * Coleções:
-    * POST ("create"): criar/cadastrar um novo usuário;
-    * GET ("read"): listar os usuários cadastrados;
-    * GET ("read"): listar todos os usuários cadastrados;
-    * DELETE ("delete"): excluir o usuário cadastrado.
-
+    * Arquivo:
+      ServeRest.postman_collection.json
+    * Criar/cadastrar um novo usuário;
+    * Listar os usuários cadastrados;
+    * Listar todos os usuários cadastrados;
+    * Excluir o usuário cadastrado.
+    
+  * Requisições:
+    * POST ("create"): cadastrar usuário
+    * GET ("read"): buscar usuário por ID
+    * GET ("read"): listar usuários cadastrados
+    * DELETE ("delete"): excluir usuário
+    
   * Testes das requisições:
     * Status Code;
     * Mensagem recebida. 
